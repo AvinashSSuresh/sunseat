@@ -1,0 +1,231 @@
+.bus-map-wrapper {
+  position: relative;
+  padding: 78px 20px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--border-glass);
+  background: radial-gradient(circle at top, rgba(255, 198, 92, 0.07), transparent 62%);
+  overflow: hidden;
+}
+
+.sun-arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 210px;
+  pointer-events: none;
+}
+
+.sun-icon {
+  position: absolute;
+  transform: translateX(-50%);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.6s ease, opacity 0.6s ease;
+  filter: drop-shadow(0 0 18px rgba(255, 170, 80, 0.45));
+}
+
+.sun-svg {
+  display: block;
+}
+
+.sun-corona {
+  animation: corona-pulse 3.4s ease-in-out infinite;
+  transform-origin: 40px 40px;
+}
+
+.sun-rays {
+  animation: sun-rotate 22s linear infinite;
+  transform-origin: 40px 40px;
+}
+
+@keyframes sun-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes corona-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+/* ---------- Light beam from sun to seats ---------- */
+.light-beam {
+  position: absolute;
+  top: 52px;
+  width: 64px;
+  height: 190px;
+  clip-path: polygon(44% 0%, 56% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 247, 224, 0.65) 0%,
+    rgba(255, 198, 92, 0.38) 35%,
+    rgba(255, 143, 74, 0.16) 65%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  filter: blur(1.5px);
+  transform-origin: top center;
+  animation: beam-shimmer 2.8s ease-in-out infinite;
+}
+
+@keyframes beam-shimmer {
+  0%, 100% {
+    opacity: var(--beamOpacity, 0.5);
+    filter: blur(1.5px) brightness(1);
+  }
+  50% {
+    opacity: calc(var(--beamOpacity, 0.5) * 1.35);
+    filter: blur(2px) brightness(1.2);
+  }
+}
+
+/* ---------- 3D stage ---------- */
+.bus-3d-stage {
+  perspective: 900px;
+  padding: 10px;
+}
+
+.bus-shell {
+  --tiltX: 0deg;
+  --tiltY: 0deg;
+  position: relative;
+  width: 240px;
+  background: linear-gradient(155deg, #1b2440, #0f1526 70%);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 30px 30px 22px 22px;
+  padding: 18px 16px 24px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06) inset,
+    0 40px 60px -24px rgba(0, 0, 0, 0.7),
+    0 14px 24px -10px rgba(0, 0, 0, 0.55);
+}
+
+.bus-floor-shadow {
+  width: 200px;
+  height: 22px;
+  margin: -6px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.55), transparent 70%);
+  filter: blur(2px);
+}
+
+.bus-windshield {
+  height: 38px;
+  border-radius: 18px 18px 9px 9px;
+  background: linear-gradient(180deg, #0a0f1b, #060a12);
+  border: 1px solid var(--border-glass);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.bus-driver-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  opacity: 0.8;
+  box-shadow: 0 0 8px var(--accent-gold);
+}
+
+.bus-cabin {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.seat-pair {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  border-radius: 9px;
+  transition: background 0.5s ease;
+}
+
+.seat-pair.lit-side {
+  background: radial-gradient(circle, rgba(255, 107, 74, 0.2), transparent 75%);
+  animation: glow-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { background-color: rgba(255, 107, 74, 0); }
+  50% { background-color: rgba(255, 107, 74, 0.05); }
+}
+
+.seat {
+  width: 29px;
+  height: 24px;
+  border-radius: 7px 7px 4px 4px;
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.25), inset 0 -3px 4px rgba(0, 0, 0, 0.3);
+}
+
+.seat-hot {
+  animation: seat-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes seat-pulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.22); }
+}
+
+.aisle {
+  width: 22px;
+}
+
+.bus-rear {
+  height: 11px;
+  margin-top: 18px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #0a0f1b, transparent);
+}
+
+.bus-side-labels {
+  display: flex;
+  gap: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.side-tag-recommended {
+  color: var(--accent-teal);
+}
+
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.heat-legend-bar {
+  width: 150px;
+  height: 7px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    rgb(52, 214, 196),
+    rgb(125, 211, 155),
+    rgb(255, 198, 92),
+    rgb(255, 143, 74),
+    rgb(255, 107, 74)
+  );
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
